@@ -11,16 +11,7 @@
     - Policies for secure payment data access
 */
 
--- Create auth schema if it doesn't exist
-CREATE SCHEMA IF NOT EXISTS auth;
-
--- Create users table if it doesn't exist
-CREATE TABLE IF NOT EXISTS auth.users (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  email text UNIQUE NOT NULL,
-  created_at timestamptz DEFAULT now(),
-  updated_at timestamptz DEFAULT now()
-);
+-- Note: auth.users is managed by Supabase, no need to create it
 
 -- Payment Methods
 CREATE TABLE IF NOT EXISTS payment_methods (
