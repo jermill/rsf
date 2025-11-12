@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CTABlockContent } from '../../../types/cms';
-import Button from '../../ui/Button';
-import Container from '../../ui/Container';
-import Section from '../../ui/Section';
+import { Button } from '../../ui/Button';
+import { Container } from '../../ui/Container';
+import { Section } from '../../ui/Section';
 
 interface CTABlockProps {
   content: CTABlockContent;

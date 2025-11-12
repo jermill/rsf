@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Page, ContentBlock } from '../types/cms';
 import BlockRenderer from '../components/cms/BlockRenderer';
-import { Helmet } from 'react-helmet-async';
 
 const DynamicPage: React.FC<{ slug?: string }> = ({ slug: propSlug }) => {
   const { slug: paramSlug } = useParams<{ slug: string }>();
@@ -78,15 +77,27 @@ const DynamicPage: React.FC<{ slug?: string }> = ({ slug: propSlug }) => {
     );
   }
 
-  return (
-    <>
-      <Helmet>
-        <title>{page.meta_title || page.title}</title>
-        {page.meta_description && <meta name="description" content={page.meta_description} />}
-      </Helmet>
-      <BlockRenderer blocks={blocks} />
-    </>
-  );
+  // Update document title
+  useEffect(() => {
+    if (page) {
+      document.title = page.meta_title || page.title || 'RSF Fitness';
+      
+      // Update meta description
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (page.meta_description) {
+        if (metaDescription) {
+          metaDescription.setAttribute('content', page.meta_description);
+        } else {
+          const meta = document.createElement('meta');
+          meta.name = 'description';
+          meta.content = page.meta_description;
+          document.head.appendChild(meta);
+        }
+      }
+    }
+  }, [page]);
+
+  return <BlockRenderer blocks={blocks} />;
 };
 
 export default DynamicPage;

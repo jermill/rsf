@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useMediaLibrary } from '../../hooks/useCMS';
 import { Upload, Image as ImageIcon, Trash2, Edit, Copy, Search, Filter } from 'lucide-react';
-import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/Card';
 import { MediaItem } from '../../types/cms';
 
 const MediaLibraryPage: React.FC = () => {

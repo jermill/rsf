@@ -13,8 +13,8 @@ import {
   History,
   Copy,
 } from 'lucide-react';
-import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/Card';
 import { BlockType, ContentBlock } from '../../types/cms';
 import BlockEditor from '../../components/admin/BlockEditor';
 

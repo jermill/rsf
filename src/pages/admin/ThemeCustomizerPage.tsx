@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSiteSettings } from '../../hooks/useCMS';
 import { Save, RefreshCw, Palette, Type, Mail, Globe, MapPin, Phone } from 'lucide-react';
-import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/Card';
 
 const ThemeCustomizerPage: React.FC = () => {
   const { settings, loading, updateMultipleSettings } = useSiteSettings();

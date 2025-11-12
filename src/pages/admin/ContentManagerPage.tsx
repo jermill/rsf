@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { usePages } from '../../hooks/useCMS';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Plus, Edit, Eye, EyeOff, Trash2, Globe } from 'lucide-react';
-import Button from '../../components/ui/Button';
-import Card from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/Card';
 
 const ContentManagerPage: React.FC = () => {
   const { pages, loading, createPage, updatePage, deletePage } = usePages();

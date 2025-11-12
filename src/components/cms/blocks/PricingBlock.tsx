@@ -1,6 +1,6 @@
 import React from 'react';
-import Container from '../../ui/Container';
-import Section from '../../ui/Section';
+import { Container } from '../../ui/Container';
+import { Section } from '../../ui/Section';
 import PricingSection from '../../sections/PricingSection';
 
 interface PricingBlockProps {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TestimonialsBlockContent } from '../../../types/cms';
-import Container from '../../ui/Container';
-import Section from '../../ui/Section';
+import { Container } from '../../ui/Container';
+import { Section } from '../../ui/Section';
 import TestimonialsSection from '../../sections/TestimonialsSection';
 
 interface TestimonialsBlockProps {

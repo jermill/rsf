@@ -1,6 +1,6 @@
 import React from 'react';
-import Container from '../../ui/Container';
-import Section from '../../ui/Section';
+import { Container } from '../../ui/Container';
+import { Section } from '../../ui/Section';
 import FeaturedWorkoutsSection from '../../sections/FeaturedWorkoutsSection';
 
 interface WorkoutsBlockProps {

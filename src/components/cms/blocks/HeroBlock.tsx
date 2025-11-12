@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HeroBlockContent } from '../../../types/cms';
-import Button from '../../ui/Button';
-import Container from '../../ui/Container';
+import { Button } from '../../ui/Button';
+import { Container } from '../../ui/Container';
 
 interface HeroBlockProps {
   content: HeroBlockContent;

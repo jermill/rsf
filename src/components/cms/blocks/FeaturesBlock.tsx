@@ -1,7 +1,7 @@
 import React from 'react';
 import { FeaturesBlockContent } from '../../../types/cms';
-import Container from '../../ui/Container';
-import Section from '../../ui/Section';
+import { Container } from '../../ui/Container';
+import { Section } from '../../ui/Section';
 import * as Icons from 'lucide-react';
 
 interface FeaturesBlockProps {
