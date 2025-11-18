@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class', // Enable class-based dark mode
   theme: {
     extend: {
       fontFamily: {
@@ -55,5 +56,29 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.scrollbar-thin': {
+          'scrollbar-width': 'thin',
+        },
+        '.scrollbar-thin::-webkit-scrollbar': {
+          width: '6px',
+        },
+        '.scrollbar-thin::-webkit-scrollbar-track': {
+          'border-radius': '10px',
+        },
+        '.scrollbar-thin::-webkit-scrollbar-thumb': {
+          'border-radius': '10px',
+        },
+        '.scrollbar-thumb-primary\\/20::-webkit-scrollbar-thumb': {
+          'background-color': 'rgba(106, 255, 183, 0.2)',
+        },
+        '.scrollbar-track-dark-surface::-webkit-scrollbar-track': {
+          'background-color': '#111111',
+        },
+      }
+      addUtilities(newUtilities, ['responsive', 'hover'])
+    }
+  ],
 };

@@ -2,11 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Check, X, ArrowRight } from 'lucide-react';
 import { Section } from '../components/ui/Section';
-import { Card, CardHeader, CardBody, CardFooter } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
 import { subscriptionPlans } from '../data/subscriptions';
 import { useNavigate } from 'react-router-dom';
-import { BackButton } from '../components/ui/BackButton';
 
 const PricingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -19,7 +16,6 @@ const PricingPage: React.FC = () => {
     <>
       <Section className="pt-32 bg-gradient-radial">
         <div className="max-w-6xl mx-auto">
-          <BackButton className="mb-6" />
           <div className="text-center max-w-3xl mx-auto mb-16">
             <motion.span 
               className="inline-block py-1 px-3 text-xs font-semibold bg-primary/20 text-primary rounded-full mb-4"
@@ -35,7 +31,7 @@ const PricingPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              Choose Your Path to Fitness
+              Community Package Pricing
             </motion.h1>
             <motion.p 
               className="text-xl text-light/70"
@@ -43,7 +39,7 @@ const PricingPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Select a plan that fits your goals. All plans include access to our supportive community and expert guidance.
+              Monthly subscriptions bundling multiple services for maximum value. Save more compared to booking services individually.
             </motion.p>
           </div>
 
@@ -55,61 +51,59 @@ const PricingPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
               >
-                <Card 
-                  className={`h-full flex flex-col ${
-                    plan.popular ? 'border-2 border-primary shadow-glow' : ''
+                <div 
+                  className={`h-full flex flex-col bg-gray-900 dark:bg-black rounded-xl border overflow-hidden ${
+                    plan.popular ? 'border-primary shadow-glow' : 'border-gray-800'
                   }`}
-                  hover={!plan.popular}
                 >
                   {plan.popular && (
-                    <div className="text-center bg-primary text-dark py-2 font-medium text-sm">
+                    <div className="text-center bg-primary text-black py-2 font-bold text-sm">
                       MOST POPULAR
                     </div>
                   )}
                   
-                  <CardHeader className="text-center">
-                    <h3 className="font-display font-bold text-2xl mb-2 text-light">
+                  <div className="text-center p-6 pb-4">
+                    <h3 className="font-display font-bold text-2xl mb-2 text-white">
                       {plan.name}
                     </h3>
-                    <p className="text-light/70 text-sm mb-4">
+                    <p className="text-gray-400 text-sm mb-4">
                       {plan.description}
                     </p>
                     <div className="flex items-baseline justify-center mb-4">
                       <span className="font-display font-bold text-4xl text-primary">
                         ${plan.price}
                       </span>
-                      <span className="text-light/70 ml-1">/{plan.period}</span>
+                      <span className="text-gray-500 ml-1">/{plan.period}</span>
                     </div>
-                  </CardHeader>
+                  </div>
                   
-                  <CardBody className="flex-grow">
-                    <ul className="space-y-4">
+                  <div className="flex-grow px-6 pb-6">
+                    <ul className="space-y-3">
                       {plan.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start">
                           {feature.included ? (
                             <Check className="w-5 h-5 text-primary mt-0.5 mr-3 flex-shrink-0" />
                           ) : (
-                            <X className="w-5 h-5 text-light/30 mt-0.5 mr-3 flex-shrink-0" />
+                            <X className="w-5 h-5 text-gray-600 mt-0.5 mr-3 flex-shrink-0" />
                           )}
-                          <span className={feature.included ? 'text-light/90' : 'text-light/50'}>
+                          <span className={feature.included ? 'text-gray-300 text-sm' : 'text-gray-600 text-sm'}>
                             {feature.title}
                           </span>
                         </li>
                       ))}
                     </ul>
-                  </CardBody>
+                  </div>
                   
-                  <CardFooter>
-                    <Button 
-                      variant={plan.popular ? 'primary' : 'outline'} 
-                      fullWidth
-                      rightIcon={<ArrowRight className="w-5 h-5" />}
+                  <div className="p-6 pt-0">
+                    <button
                       onClick={handleGetStarted}
+                      className="w-full bg-primary text-black px-4 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 group"
                     >
                       Get Started
-                    </Button>
-                  </CardFooter>
-                </Card>
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -154,20 +148,28 @@ const PricingPage: React.FC = () => {
 
 const faqs = [
   {
-    question: "What's included in the membership?",
-    answer: "All memberships include access to our facility, basic equipment, and community features. Higher tiers add personal training, nutrition planning, and premium services."
+    question: "What happens if I don't use all my monthly sessions?",
+    answer: "Unused sessions do not roll over to the next month. However, you can reschedule sessions within the same month based on trainer availability. We recommend booking your sessions in advance."
+  },
+  {
+    question: "Can I upgrade or downgrade my package?",
+    answer: "Yes! You can upgrade or downgrade between tiers at any time. Changes take effect at the start of your next billing cycle, and we'll prorate any differences."
+  },
+  {
+    question: "How much do I save with a package vs. individual services?",
+    answer: "Our packages offer significant savings. For example, the Elite package includes $670+ worth of services monthly for $599. The more you commit, the more you save!"
   },
   {
     question: "Can I cancel my subscription?",
-    answer: "Yes, you can cancel your subscription at any time. We offer a hassle-free cancellation process with no hidden fees."
+    answer: "Yes, you can cancel your subscription at any time. We offer month-to-month billing with no long-term contracts or cancellation fees."
   },
   {
-    question: "Are there any contracts?",
-    answer: "No long-term contracts required. Our memberships are month-to-month, giving you the flexibility to adjust your plan as needed."
+    question: "Can I add extra services to my package?",
+    answer: "Absolutely! You can book additional sessions of any service at their regular rates. Package members receive priority booking for add-on services."
   },
   {
-    question: "Do you offer a trial period?",
-    answer: "Yes! We offer a 7-day free trial for new members to experience our facilities and services before committing."
+    question: "Do packages include online and in-person options?",
+    answer: "Yes! Pro and Elite tiers include both online coaching and in-person training sessions, giving you flexibility to train how and where you prefer."
   }
 ];
 

@@ -1,0 +1,108 @@
+-- =====================================================
+-- Test Onboarding Data Insert
+-- Run this to test if the profiles table accepts onboarding data correctly
+-- Replace 'YOUR_USER_ID_HERE' with an actual user ID from auth.users
+-- =====================================================
+
+-- First, let's see what users exist
+SELECT id, email FROM auth.users LIMIT 5;
+
+-- Test insert (UPDATE THE ID BELOW!)
+-- INSERT INTO public.profiles (
+--     id,
+--     payment_model,
+--     subscription_package,
+--     first_name,
+--     last_name,
+--     phone,
+--     city,
+--     state,
+--     date_of_birth,
+--     gender,
+--     height,
+--     weight,
+--     chest,
+--     waist,
+--     hips,
+--     medical_conditions,
+--     injuries,
+--     medications,
+--     doctor_clearance,
+--     specific_goal,
+--     target_date,
+--     current_activity_level,
+--     emergency_contact_name,
+--     emergency_contact_phone,
+--     emergency_contact_relationship,
+--     preferred_days,
+--     sessions_per_week,
+--     liability_waiver_accepted,
+--     terms_accepted,
+--     photo_consent,
+--     preferred_payment_method,
+--     referral_source,
+--     payment_setup_required,
+--     payment_setup_status,
+--     onboarding_completed_at
+-- ) VALUES (
+--     'YOUR_USER_ID_HERE', -- Replace with actual user ID
+--     'pay-as-you-go',
+--     NULL,
+--     'Test',
+--     'User',
+--     '(555) 123-4567',
+--     'San Francisco',
+--     'CA',
+--     '1990-01-01',
+--     'male',
+--     72, -- 6 feet
+--     180,
+--     40,
+--     32,
+--     38,
+--     ARRAY['None']::TEXT[], -- Medical conditions as array
+--     NULL,
+--     NULL,
+--     'yes',
+--     'Lose 20 lbs',
+--     '2025-06-01',
+--     'moderate',
+--     'Jane Doe',
+--     '(555) 987-6543',
+--     'Spouse',
+--     ARRAY['monday', 'wednesday', 'friday']::TEXT[], -- Preferred days as array
+--     3,
+--     TRUE,
+--     TRUE,
+--     TRUE,
+--     'credit_card',
+--     'Google',
+--     TRUE,
+--     'pending',
+--     NOW()
+-- )
+-- ON CONFLICT (id) DO UPDATE SET
+--     payment_model = EXCLUDED.payment_model,
+--     first_name = EXCLUDED.first_name,
+--     last_name = EXCLUDED.last_name,
+--     city = EXCLUDED.city,
+--     state = EXCLUDED.state,
+--     medical_conditions = EXCLUDED.medical_conditions,
+--     preferred_days = EXCLUDED.preferred_days,
+--     onboarding_completed_at = EXCLUDED.onboarding_completed_at;
+
+-- If the above insert works, the schema is correct!
+-- If it fails, the error message will tell you which column is missing or has wrong type.
+
+-- Check if the insert worked
+-- SELECT 
+--     first_name,
+--     last_name, 
+--     city,
+--     state,
+--     medical_conditions,
+--     preferred_days,
+--     onboarding_completed_at
+-- FROM public.profiles 
+-- WHERE id = 'YOUR_USER_ID_HERE';
+

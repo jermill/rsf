@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { DevLoginButton } from '../DevLoginButton';
 
 const Layout: React.FC = () => {
   const [isFooterVisible, setIsFooterVisible] = useState(false);
@@ -28,6 +29,7 @@ const Layout: React.FC = () => {
         <Outlet />
       </main>
       <Footer className={`footer-transition ${isFooterVisible ? 'footer-visible' : 'footer-hidden'}`} />
+      <DevLoginButton />
     </div>
   );
 };

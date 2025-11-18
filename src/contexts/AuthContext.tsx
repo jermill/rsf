@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
+import { setUserContext, clearUserContext } from '../lib/sentry';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signUp: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string) => Promise<{ data: any; error: any }>;
   signIn: (email: string, password: string) => Promise<{ data: any; error: any }>;
   signOut: () => Promise<void>;
 }
@@ -19,13 +20,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     // Check active sessions and sets the user
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+      const user = session?.user ?? null;
+      setUser(user);
+      
+      // Set Sentry user context
+      if (user) {
+        setUserContext({
+          id: user.id,
+          email: user.email,
+          role: user.user_metadata?.role,
+        });
+      }
+      
       setLoading(false);
     });
 
     // Listen for changes on auth state
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      const user = session?.user ?? null;
+      setUser(user);
+      
+      // Update Sentry user context
+      if (user) {
+        setUserContext({
+          id: user.id,
+          email: user.email,
+          role: user.user_metadata?.role,
+        });
+      } else {
+        clearUserContext();
+      }
+      
       setLoading(false);
     });
 
@@ -33,11 +58,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({
+    return await supabase.auth.signUp({
       email,
       password,
     });
-    if (error) throw error;
   };
 
   const signIn = async (email: string, password: string) => {
@@ -51,6 +75,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
+    
+    // Clear Sentry user context on logout
+    clearUserContext();
   };
 
   return (

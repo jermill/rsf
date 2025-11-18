@@ -4,13 +4,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../ui/Button';
 import { Container } from '../ui/Container';
 import { useAuth } from '../../contexts/AuthContext';
-import { AuthModal } from '../auth/AuthModal';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<'sign-in' | 'sign-up'>('sign-in');
   
   const location = useLocation();
   const navigate = useNavigate();
@@ -38,8 +35,7 @@ const Header: React.FC = () => {
   };
 
   const handleSignInClick = () => {
-    setAuthMode('sign-in');
-    setIsAuthModalOpen(true);
+    navigate('/sign-in');
     setIsMenuOpen(false);
   };
 
@@ -56,8 +52,8 @@ const Header: React.FC = () => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-base/90 backdrop-blur-sm shadow-soft py-2' : 'bg-transparent py-4'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gray-900 dark:bg-black shadow-lg border-b border-gray-800 ${
+          isScrolled ? 'py-2' : 'py-4'
         }`}
       >
         <Container>
@@ -78,7 +74,7 @@ const Header: React.FC = () => {
               <NavLink href="/" active={location.pathname === "/"}>Home</NavLink>
               <NavLink href="/community" active={location.pathname === "/community"}>Community</NavLink>
               <NavLink href="/services" active={location.pathname === "/services"}>Services</NavLink>
-              <NavLink href="/pricing" active={location.pathname === "/pricing"}>Pricing</NavLink>
+              <NavLink href="/pricing" active={location.pathname === "/pricing"}>Membership</NavLink>
 
             </nav>
             
@@ -146,7 +142,7 @@ const Header: React.FC = () => {
                   <MobileNavLink href="/community" onClick={toggleMenu}>Community</MobileNavLink>
                   
                   <MobileNavLink href="/services" onClick={toggleMenu}>Services</MobileNavLink>
-                  <MobileNavLink href="/pricing" onClick={toggleMenu}>Pricing</MobileNavLink>
+                  <MobileNavLink href="/pricing" onClick={toggleMenu}>Membership</MobileNavLink>
                   <div className="pt-4 flex flex-col space-y-3">
                     {user ? (
                       <>
@@ -196,12 +192,6 @@ const Header: React.FC = () => {
           )}
         </Container>
       </header>
-
-      <AuthModal 
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        mode={authMode}
-      />
     </>
   );
 };
@@ -217,7 +207,7 @@ const NavLink: React.FC<NavLinkProps> = ({ href, active, children }) => {
     <Link
       to={href}
       className={`font-medium text-base transition-colors duration-200 ${
-        active ? 'text-primary' : 'text-light hover:text-primary'
+        active ? 'text-primary' : 'text-gray-300 hover:text-primary'
       }`}
     >
       {children}
@@ -235,7 +225,7 @@ const MobileNavLink: React.FC<MobileNavLinkProps> = ({ href, onClick, children }
   return (
     <Link
       to={href}
-      className="block py-2 text-lg font-medium hover:text-primary transition-colors duration-200"
+      className="block py-2 text-lg font-medium text-gray-300 hover:text-primary transition-colors duration-200"
       onClick={onClick}
     >
       {children}

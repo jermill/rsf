@@ -51,7 +51,7 @@
 
   /* Mobile menu overlay */
   .mobile-menu-overlay {
-    @apply fixed inset-0 bg-dark/95 backdrop-blur-lg z-40;
+    @apply fixed inset-0 bg-gray-900 z-40;
     height: calc(100vh - 60px);
     top: 60px;
     overflow-y: auto;
