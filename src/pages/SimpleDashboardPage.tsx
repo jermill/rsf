@@ -37,22 +37,22 @@ const ActionCard: React.FC<ActionCardProps> = ({
   color,
   badge,
 }) => (
-  <Card className="hover:shadow-xl transition-all duration-300 hover:scale-105 relative overflow-hidden group">
+  <Card className="hover:shadow-xl transition-all duration-300 sm:hover:scale-105 relative overflow-hidden group touch-manipulation">
     {badge && (
-      <div className="absolute top-4 right-4">
-        <span className="px-3 py-1 bg-primary text-dark text-xs font-bold rounded-full">
+      <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+        <span className="px-2 py-0.5 sm:px-3 sm:py-1 bg-primary text-dark text-xs font-bold rounded-full">
           {badge}
         </span>
       </div>
     )}
-    <CardBody className="p-8 text-center">
-      <div className={`mx-auto w-16 h-16 ${color} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+    <CardBody className="p-5 sm:p-6 md:p-8 text-center">
+      <div className={`mx-auto w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 ${color} rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform`}>
         {icon}
       </div>
-      <h3 className="text-xl font-display font-bold text-gray-900 dark:text-white mb-2">
+      <h3 className="text-lg sm:text-xl font-display font-bold text-gray-900 dark:text-white mb-2">
         {title}
       </h3>
-      <p className="text-gray-600 dark:text-gray-400 mb-6 min-h-[48px]">
+      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-5 md:mb-6 min-h-[40px] sm:min-h-[48px] leading-relaxed">
         {description}
       </p>
       <Button
@@ -60,6 +60,7 @@ const ActionCard: React.FC<ActionCardProps> = ({
         fullWidth
         rightIcon={<ArrowRight className="w-4 h-4" />}
         onClick={onClick}
+        className="touch-manipulation active:scale-95"
       >
         {buttonText}
       </Button>
@@ -162,66 +163,66 @@ const SimpleDashboardPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black pt-24 md:pt-28 pb-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-black pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-16 md:pb-20">
       <Section>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-6 sm:space-y-7 md:space-y-8">
           {/* Welcome Header */}
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <div className="flex items-center justify-center gap-3 mb-3 sm:mb-4">
               {profile?.avatar_url ? (
                 <img
                   src={profile.avatar_url}
                   alt="Profile"
-                  className="w-16 h-16 rounded-full object-cover border-4 border-primary"
+                  className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-3 sm:border-4 border-primary"
                 />
               ) : (
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-                  <User className="w-8 h-8 text-primary" />
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <User className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
                 </div>
               )}
             </div>
-            <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-white mb-3">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 leading-tight">
               Welcome back, {profile?.first_name || 'there'}! 👋
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
               Ready to crush your fitness goals today?
             </p>
           </div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-7 md:mb-8">
             <Card>
-              <CardBody className="p-6 text-center">
-                <div className="text-3xl font-bold text-primary mb-1">{upcomingSessions}</div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Upcoming Sessions</p>
+              <CardBody className="p-4 sm:p-5 md:p-6 text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-primary mb-1">{upcomingSessions}</div>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Upcoming Sessions</p>
               </CardBody>
             </Card>
             <Card>
-              <CardBody className="p-6 text-center">
-                <div className="text-3xl font-bold text-green-500 mb-1">{currentStreak}</div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Day Streak 🔥</p>
+              <CardBody className="p-4 sm:p-5 md:p-6 text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-green-500 mb-1">{currentStreak}</div>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Day Streak 🔥</p>
               </CardBody>
             </Card>
             <Card>
-              <CardBody className="p-6 text-center">
-                <div className="text-3xl font-bold text-blue-500 mb-1">8/8</div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Sessions Used</p>
+              <CardBody className="p-4 sm:p-5 md:p-6 text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-blue-500 mb-1">8/8</div>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Sessions Used</p>
               </CardBody>
             </Card>
             <Card>
-              <CardBody className="p-6 text-center">
-                <div className="text-3xl font-bold text-yellow-500 mb-1">
+              <CardBody className="p-4 sm:p-5 md:p-6 text-center">
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-yellow-500 mb-1">
                   {profile?.subscription_package || 'Basic'}
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Current Plan</p>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Current Plan</p>
               </CardBody>
             </Card>
           </div>
 
           {/* Action Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             <ActionCard
-              icon={<Calendar className="w-8 h-8 text-primary" />}
+              icon={<Calendar className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-primary" />}
               title="Book a Session"
               description="Schedule your next training session with your coach"
               buttonText="Book Now"
@@ -230,7 +231,7 @@ const SimpleDashboardPage: React.FC = () => {
             />
 
             <ActionCard
-              icon={<Crown className="w-8 h-8 text-yellow-500" />}
+              icon={<Crown className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-yellow-500" />}
               title="My Plan"
               description="View your membership, goals, and training plan"
               buttonText="View Plan"
@@ -239,7 +240,7 @@ const SimpleDashboardPage: React.FC = () => {
             />
 
             <ActionCard
-              icon={<TrendingUp className="w-8 h-8 text-blue-500" />}
+              icon={<TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-blue-500" />}
               title="Track Progress"
               description="Log your measurements and view your progress"
               buttonText="Track Now"
@@ -248,7 +249,7 @@ const SimpleDashboardPage: React.FC = () => {
             />
 
             <ActionCard
-              icon={<MessageCircle className="w-8 h-8 text-green-500" />}
+              icon={<MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-green-500" />}
               title="Message Coach"
               description={
                 canMessageCoach()
@@ -268,7 +269,7 @@ const SimpleDashboardPage: React.FC = () => {
             />
 
             <ActionCard
-              icon={<Dumbbell className="w-8 h-8 text-purple-500" />}
+              icon={<Dumbbell className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-purple-500" />}
               title="My Sessions"
               description="View your upcoming and past training sessions"
               buttonText="View Sessions"
@@ -277,7 +278,7 @@ const SimpleDashboardPage: React.FC = () => {
             />
 
             <ActionCard
-              icon={<CreditCard className="w-8 h-8 text-pink-500" />}
+              icon={<CreditCard className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-pink-500" />}
               title="Billing & Payments"
               description="Manage your subscription and payment methods"
               buttonText="Manage Billing"
@@ -287,13 +288,13 @@ const SimpleDashboardPage: React.FC = () => {
           </div>
 
           {/* Settings Button */}
-          <div className="flex justify-center mt-12">
+          <div className="flex justify-center mt-8 sm:mt-10 md:mt-12">
             <Button
               variant="ghost"
               size="lg"
               leftIcon={<Settings className="w-5 h-5" />}
               onClick={() => navigate('/dashboard/settings')}
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white touch-manipulation active:scale-95 w-full sm:w-auto"
             >
               Account Settings
             </Button>
