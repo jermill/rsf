@@ -159,18 +159,18 @@ const ServicesPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pt-28 pb-20">
+    <div className="min-h-screen pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-16 md:pb-20">
       <Section className="bg-gradient-radial !py-0">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center max-w-4xl mx-auto mb-12 px-4"
+          className="text-center max-w-4xl mx-auto mb-8 sm:mb-10 md:mb-12 px-4 sm:px-6"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
             Our Services
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
             From personal training to nutrition coaching, we offer comprehensive fitness solutions tailored to your goals.
           </p>
         </motion.div>
@@ -180,16 +180,16 @@ const ServicesPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="flex justify-center gap-3 mb-12 flex-wrap px-4"
+          className="flex justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 md:mb-12 flex-wrap px-4 sm:px-6"
         >
           {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id as any)}
-              className={`px-6 py-2 rounded-full font-medium transition-all ${
+              className={`px-4 sm:px-5 md:px-6 py-2.5 sm:py-2 rounded-full text-sm sm:text-base font-medium transition-all touch-manipulation ${
                 selectedCategory === category.id
-                  ? 'bg-primary text-black shadow-lg'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ? 'bg-primary text-black shadow-lg scale-105'
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 active:scale-95'
               }`}
             >
               {category.label}
@@ -198,55 +198,56 @@ const ServicesPage: React.FC = () => {
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 px-4 sm:px-6 max-w-7xl mx-auto">
           {filteredServices.map((service, index) => (
             <motion.div
               key={service.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * index }}
-              className="relative bg-gray-900 dark:bg-black rounded-xl border border-gray-800 overflow-hidden hover:border-primary/50 transition-all"
+              className="relative bg-gray-900 dark:bg-black rounded-xl border border-gray-800 overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all"
             >
               {/* Popular Badge */}
               {service.popular && (
-                <div className="absolute top-4 right-4 bg-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 z-10">
+                <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-yellow-500 text-black px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 z-10 shadow-lg">
                   <Star className="w-3 h-3" />
-                  Popular
+                  <span className="hidden sm:inline">Popular</span>
+                  <span className="sm:hidden">★</span>
                 </div>
               )}
 
               {/* Icon Header - Simplified */}
-              <div className={`bg-gradient-to-r ${service.color} p-4 flex justify-center items-center`}>
+              <div className={`bg-gradient-to-r ${service.color} p-3 sm:p-4 flex justify-center items-center`}>
                 <div className="text-white">
                   {service.icon}
                 </div>
               </div>
 
               {/* Content */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">
+              <div className="p-4 sm:p-5 md:p-6">
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
                   {service.title}
                 </h3>
-                <p className="text-gray-400 text-sm mb-6">
+                <p className="text-gray-400 text-sm mb-4 sm:mb-5 md:mb-6 leading-relaxed">
                   {service.description}
                 </p>
 
                 {/* Pricing */}
-                <div className="mb-6">
+                <div className="mb-4 sm:mb-5 md:mb-6">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-bold text-primary">
+                    <span className="text-3xl sm:text-4xl font-bold text-primary">
                       {service.price}
                     </span>
-                    <span className="text-gray-500 text-sm">
+                    <span className="text-gray-500 text-xs sm:text-sm">
                       {service.priceDetail}
                     </span>
                   </div>
                 </div>
 
                 {/* Features */}
-                <ul className="space-y-3 mb-8">
+                <ul className="space-y-2.5 sm:space-y-3 mb-6 sm:mb-7 md:mb-8">
                   {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-300">
+                    <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-gray-300">
                       <CheckCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                       <span>{feature}</span>
                     </li>
@@ -256,7 +257,7 @@ const ServicesPage: React.FC = () => {
                 {/* CTA Button */}
                 <button
                   onClick={() => handleBookService(service.id)}
-                  className="w-full bg-primary text-black px-4 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 group"
+                  className="w-full bg-primary text-black px-4 py-3 sm:py-3.5 rounded-lg font-semibold hover:bg-primary/90 active:scale-95 transition-all flex items-center justify-center gap-2 group touch-manipulation"
                 >
                   Get Started
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -271,20 +272,20 @@ const ServicesPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mt-16 max-w-4xl mx-auto px-4"
+          className="mt-12 sm:mt-14 md:mt-16 max-w-4xl mx-auto px-4 sm:px-6"
         >
-          <div className="bg-gradient-to-r from-primary-500 to-primary-600 dark:from-primary-600 dark:to-primary-700 rounded-2xl p-8 sm:p-12 text-center text-white shadow-xl">
-            <Zap className="w-12 h-12 mx-auto mb-4" />
-            <h2 className="text-3xl font-bold mb-4">Not Sure Which Service is Right for You?</h2>
-            <p className="text-white/90 text-lg mb-6">
+          <div className="bg-gradient-to-r from-primary-500 to-primary-600 dark:from-primary-600 dark:to-primary-700 rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12 text-center text-white shadow-xl">
+            <Zap className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4" />
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Not Sure Which Service is Right for You?</h2>
+            <p className="text-white/90 text-base sm:text-lg mb-5 sm:mb-6">
               Book a free consultation and we'll help you find the perfect program to reach your fitness goals.
             </p>
             <button
               onClick={() => navigate('/onboarding')}
-              className="bg-primary text-black px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors inline-flex items-center gap-2 shadow-lg"
+              className="bg-primary text-black px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg font-semibold hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center justify-center gap-2 shadow-lg touch-manipulation w-full sm:w-auto"
             >
               <Calendar className="w-5 h-5" />
-              Schedule Free Consultation
+              <span className="text-sm sm:text-base">Schedule Free Consultation</span>
             </button>
           </div>
         </motion.div>
