@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Clock, BarChart2, ArrowRight } from 'lucide-react';
 import { Section } from '../ui/Section';
@@ -7,6 +8,8 @@ import { Button } from '../ui/Button';
 import { featuredWorkouts } from '../../data/workouts';
 
 const FeaturedWorkoutsSection: React.FC = () => {
+  const navigate = useNavigate();
+  
   return (
     <Section className="bg-gradient-radial" id="programs">
       <div className="mb-12 text-center">
@@ -45,6 +48,7 @@ const FeaturedWorkoutsSection: React.FC = () => {
             key={workout.id} 
             workout={workout} 
             index={index}
+            onLearnMore={() => navigate('/services')}
           />
         ))}
       </div>
@@ -60,6 +64,7 @@ const FeaturedWorkoutsSection: React.FC = () => {
           variant="outline" 
           size="lg"
           rightIcon={<ArrowRight className="w-5 h-5" />}
+          onClick={() => navigate('/services')}
         >
           Explore All Services
         </Button>
@@ -85,9 +90,10 @@ interface WorkoutCardProps {
     instructorImageUrl: string;
   };
   index: number;
+  onLearnMore: () => void;
 }
 
-const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, index }) => {
+const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, index, onLearnMore }) => {
   const levelColors = {
     beginner: 'bg-primary/20 text-primary',
     intermediate: 'bg-primary/30 text-primary',
@@ -146,7 +152,11 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, index }) => {
               />
               <span className="text-sm font-medium text-light/90">{workout.instructorName}</span>
             </div>
-            <Button variant="ghost" size="sm">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={onLearnMore}
+            >
               Learn More
             </Button>
           </div>
