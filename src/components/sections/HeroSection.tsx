@@ -24,10 +24,10 @@ const HeroSection: React.FC = () => {
         />
       </div>
       
-      <Container className="relative z-20 pt-32 md:pt-40 lg:pt-48">
-        <div className="max-w-4xl">
+      <Container className="relative z-20 pt-24 sm:pt-32 md:pt-40 lg:pt-48 pb-16 sm:pb-20">
+        <div className="max-w-4xl px-4 sm:px-0">
           <motion.span 
-            className="inline-block py-1 px-3 text-xs font-semibold bg-primary/20 text-primary rounded-full mb-6"
+            className="inline-block py-1.5 px-4 text-xs sm:text-sm font-semibold bg-primary/20 text-primary rounded-full mb-4 sm:mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -36,17 +36,18 @@ const HeroSection: React.FC = () => {
           </motion.span>
           
           <motion.h1 
-            className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6"
+            className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mb-4 sm:mb-6 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Transform Your Body, <br />
+            Transform Your Body, <br className="hidden sm:block" />
+            <span className="block sm:inline"> </span>
             <span className="text-gradient">Transform Your Life</span>
           </motion.h1>
           
           <motion.p 
-            className="text-lg md:text-xl text-light/90 mb-8 max-w-2xl"
+            className="text-base sm:text-lg md:text-xl text-light/90 mb-6 sm:mb-8 max-w-2xl leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -55,7 +56,7 @@ const HeroSection: React.FC = () => {
           </motion.p>
           
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -65,6 +66,7 @@ const HeroSection: React.FC = () => {
               size="lg" 
               rightIcon={<ArrowRight className="w-5 h-5" />}
               onClick={handleJoinClick}
+              className="w-full sm:w-auto"
             >
               Join Today
             </Button>
@@ -72,13 +74,14 @@ const HeroSection: React.FC = () => {
               variant="outline" 
               size="lg"
               onClick={() => navigate('/services')}
+              className="w-full sm:w-auto"
             >
               Explore Programs
             </Button>
           </motion.div>
           
           <motion.div 
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10"
+            className="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -115,11 +118,11 @@ interface StatsItemProps {
 
 const StatsItem: React.FC<StatsItemProps> = ({ value, label }) => {
   return (
-    <div className="text-center group">
-      <p className="font-display font-bold text-3xl md:text-4xl text-primary mb-2 group-hover:shadow-glow transition-all duration-300">
+    <div className="text-center group p-3 sm:p-4 rounded-lg hover:bg-primary/5 transition-all duration-300">
+      <p className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-primary mb-1 sm:mb-2 group-hover:shadow-glow transition-all duration-300">
         {value}
       </p>
-      <p className="text-light/70 text-sm md:text-base">
+      <p className="text-light/70 text-xs sm:text-sm md:text-base">
         {label}
       </p>
     </div>

@@ -53,20 +53,20 @@ const Header: React.FC = () => {
     <>
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-gray-900 dark:bg-black shadow-lg border-b border-gray-800 ${
-          isScrolled ? 'py-2' : 'py-4'
+          isScrolled ? 'py-2 sm:py-2' : 'py-3 sm:py-4'
         }`}
       >
-        <Container>
+        <Container className="px-4 sm:px-6">
           <div className="flex items-center justify-between">
             <Link 
               to="/" 
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 touch-manipulation"
               onClick={() => setIsMenuOpen(false)}
             >
               <img 
                 src="https://github.com/QRUMN/RSFIMG/blob/main/RSF_IconOnly_FullColor%20(1).png?raw=true"
                 alt="RSF Logo"
-                className="w-10 h-10 md:w-12 md:h-12 object-contain"
+                className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain"
               />
             </Link>
             
@@ -121,7 +121,7 @@ const Header: React.FC = () => {
             </div>
             
             <button 
-              className="md:hidden p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors duration-200"
+              className="md:hidden p-3 -mr-3 text-primary hover:bg-primary/10 rounded-lg transition-colors duration-200 touch-manipulation active:scale-95"
               onClick={toggleMenu}
               aria-expanded={isMenuOpen}
               aria-label="Toggle menu"
@@ -134,34 +134,48 @@ const Header: React.FC = () => {
             </button>
           </div>
           
+          {/* Mobile Menu - Full Screen Overlay */}
           {isMenuOpen && (
-            <div className="mobile-menu-overlay">
-              <Container>
-                <div className="flex flex-col space-y-4 py-6">
-                  <MobileNavLink href="/" onClick={toggleMenu}>Home</MobileNavLink>
-                  <MobileNavLink href="/community" onClick={toggleMenu}>Community</MobileNavLink>
+            <div className="md:hidden fixed inset-x-0 top-[73px] bottom-0 bg-gray-900/98 backdrop-blur-sm z-40 overflow-y-auto">
+              <div className="px-4 py-6">
+                <div className="flex flex-col space-y-1">
+                  <MobileNavLink href="/" onClick={toggleMenu} active={location.pathname === "/"}>
+                    Home
+                  </MobileNavLink>
+                  <MobileNavLink href="/community" onClick={toggleMenu} active={location.pathname === "/community"}>
+                    Community
+                  </MobileNavLink>
+                  <MobileNavLink href="/services" onClick={toggleMenu} active={location.pathname === "/services"}>
+                    Services
+                  </MobileNavLink>
+                  <MobileNavLink href="/pricing" onClick={toggleMenu} active={location.pathname === "/pricing"}>
+                    Membership
+                  </MobileNavLink>
                   
-                  <MobileNavLink href="/services" onClick={toggleMenu}>Services</MobileNavLink>
-                  <MobileNavLink href="/pricing" onClick={toggleMenu}>Membership</MobileNavLink>
-                  <div className="pt-4 flex flex-col space-y-3">
+                  <div className="pt-6 pb-2 border-t border-gray-800 mt-4 flex flex-col space-y-3">
                     {user ? (
                       <>
                         <Button 
                           variant="outline" 
                           fullWidth
-                          leftIcon={<User className="w-4 h-4" />}
+                          size="lg"
+                          leftIcon={<User className="w-5 h-5" />}
                           onClick={() => {
                             navigate('/dashboard');
                             setIsMenuOpen(false);
+                            document.body.style.overflow = 'auto';
                           }}
+                          className="touch-manipulation"
                         >
                           Dashboard
                         </Button>
                         <Button 
                           variant="ghost" 
                           fullWidth
-                          leftIcon={<LogOut className="w-4 h-4" />}
+                          size="lg"
+                          leftIcon={<LogOut className="w-5 h-5" />}
                           onClick={handleLogout}
+                          className="touch-manipulation"
                         >
                           Logout
                         </Button>
@@ -171,15 +185,19 @@ const Header: React.FC = () => {
                         <Button 
                           variant="outline" 
                           fullWidth
+                          size="lg"
                           onClick={handleSignInClick}
+                          className="touch-manipulation"
                         >
                           Sign In
                         </Button>
                         <Button 
                           variant="primary" 
                           fullWidth 
-                          leftIcon={<LogIn className="w-4 h-4" />}
+                          size="lg"
+                          leftIcon={<LogIn className="w-5 h-5" />}
                           onClick={handleJoinClick}
+                          className="touch-manipulation"
                         >
                           Join Now
                         </Button>
@@ -187,7 +205,7 @@ const Header: React.FC = () => {
                     )}
                   </div>
                 </div>
-              </Container>
+              </div>
             </div>
           )}
         </Container>
@@ -218,14 +236,19 @@ const NavLink: React.FC<NavLinkProps> = ({ href, active, children }) => {
 interface MobileNavLinkProps {
   href: string;
   onClick: () => void;
+  active?: boolean;
   children: React.ReactNode;
 }
 
-const MobileNavLink: React.FC<MobileNavLinkProps> = ({ href, onClick, children }) => {
+const MobileNavLink: React.FC<MobileNavLinkProps> = ({ href, onClick, active, children }) => {
   return (
     <Link
       to={href}
-      className="block py-2 text-lg font-medium text-gray-300 hover:text-primary transition-colors duration-200"
+      className={`block py-4 px-4 -mx-4 text-lg font-medium transition-all duration-200 touch-manipulation rounded-lg ${
+        active 
+          ? 'text-primary bg-primary/10' 
+          : 'text-gray-300 hover:text-primary hover:bg-primary/5 active:bg-primary/10'
+      }`}
       onClick={onClick}
     >
       {children}
