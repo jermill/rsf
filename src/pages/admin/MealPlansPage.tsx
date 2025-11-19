@@ -3,6 +3,8 @@ import { supabase } from '../../lib/supabase';
 import MealPlanBuilder from '../../components/admin/MealPlanBuilder';
 import ClientSearch from '../../components/admin/ClientSearch';
 import ClientStatusWidget from '../../components/admin/ClientStatusWidget';
+import TemplateBrowser from '../../components/admin/TemplateBrowser';
+import { MealPlanTemplate } from '../../data/mealPlanTemplates';
 import { Utensils, AlertCircle } from 'lucide-react';
 
 // Placeholder meal plans data
@@ -39,6 +41,8 @@ const initialMealPlans = [
 
 const MealPlansPage: React.FC = () => {
   const [showBuilder, setShowBuilder] = useState(false);
+  const [showTemplateBrowser, setShowTemplateBrowser] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<MealPlanTemplate | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const [selectedClient, setSelectedClient] = useState<{ id: string; name: string; age?: number; goals?: string[]; dietaryPrefs?: string[] } | null>(null);
   const [mealPlans, setMealPlans] = useState(initialMealPlans);
@@ -192,6 +196,12 @@ const MealPlansPage: React.FC = () => {
     setMealPlans([newPlan, ...mealPlans]);
   };
 
+  // Handle template selection
+  const handleTemplateSelect = (template: MealPlanTemplate) => {
+    setSelectedTemplate(template);
+    setShowBuilder(true);
+  };
+
   // Delete plan dialog
   const openDeleteDialog = (plan: typeof mealPlans[0]) => {
     setDeleteDialog({ open: true, planId: plan.id });
@@ -288,7 +298,7 @@ const MealPlansPage: React.FC = () => {
           </button>
           <button
             className="w-full border border-primary text-primary font-semibold rounded-lg py-2.5 hover:bg-primary/10 transition"
-            onClick={() => setDropdownOpen('templates')}
+            onClick={() => setShowTemplateBrowser(true)}
           >
             View Templates
           </button>
@@ -532,7 +542,20 @@ const MealPlansPage: React.FC = () => {
       )}
     </div>
     {showBuilder && (
-      <MealPlanBuilder client={selectedClient || { id: '', name: '' }} onClose={() => setShowBuilder(false)} />
+      <MealPlanBuilder 
+        client={selectedClient || { id: '', name: '' }} 
+        template={selectedTemplate || undefined}
+        onClose={() => {
+          setShowBuilder(false);
+          setSelectedTemplate(null);
+        }} 
+      />
+    )}
+    {showTemplateBrowser && (
+      <TemplateBrowser
+        onClose={() => setShowTemplateBrowser(false)}
+        onSelect={handleTemplateSelect}
+      />
     )}
     {deleteDialog.open && (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 p-4">

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TemplateSelector from './TemplateSelector';
+import { MealPlanTemplate } from '../../data/mealPlanTemplates';
 
 interface Client {
   id: string;
@@ -8,6 +9,7 @@ interface Client {
 
 interface MealPlanBuilderProps {
   client: Client;
+  template?: MealPlanTemplate;
   onClose: () => void;
 }
 
@@ -40,7 +42,7 @@ const templates = [
   },
 ];
 
-const MealPlanBuilder: React.FC<MealPlanBuilderProps> = ({ client, onClose }) => {
+const MealPlanBuilder: React.FC<MealPlanBuilderProps> = ({ client, template, onClose }) => {
   const [planName, setPlanName] = useState('');
   const [description, setDescription] = useState('');
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | undefined>(undefined);
@@ -50,6 +52,27 @@ const MealPlanBuilder: React.FC<MealPlanBuilderProps> = ({ client, onClose }) =>
   const [days, setDays] = useState([
     { dayNumber: 1, meals: [{ mealType: 'breakfast', foods: [''] }] },
   ]);
+
+  // Populate form with template data if provided
+  useEffect(() => {
+    if (template) {
+      setPlanName(template.name);
+      setDescription(template.description);
+      setSelectedTemplateId(template.id);
+      
+      // Pre-populate days with template meals
+      const templateDays = Array.from({ length: Math.min(template.duration, 7) }, (_, i) => ({
+        dayNumber: i + 1,
+        meals: [
+          { mealType: 'breakfast', foods: template.meals.breakfast },
+          { mealType: 'lunch', foods: template.meals.lunch },
+          { mealType: 'dinner', foods: template.meals.dinner },
+          { mealType: 'snack', foods: template.meals.snacks },
+        ],
+      }));
+      setDays(templateDays);
+    }
+  }, [template]);
 
   // Handle template selection
   const handleTemplateSelect = (templateId: string) => {
