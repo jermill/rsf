@@ -10,6 +10,11 @@ export interface MealPlanTemplate {
     carbs: number;
     fats: number;
   };
+  macrosGrams: {
+    protein: number; // grams
+    carbs: number;
+    fats: number;
+  };
   meals: {
     breakfast: string[];
     lunch: string[];
@@ -20,6 +25,15 @@ export interface MealPlanTemplate {
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   icon: string;
 }
+
+// Helper function to calculate macros in grams from percentages and calories
+export const calculateMacrosGrams = (calories: number, proteinPercent: number, carbsPercent: number, fatsPercent: number) => {
+  return {
+    protein: Math.round((calories * (proteinPercent / 100)) / 4),
+    carbs: Math.round((calories * (carbsPercent / 100)) / 4),
+    fats: Math.round((calories * (fatsPercent / 100)) / 9),
+  };
+};
 
 export const mealPlanTemplates: MealPlanTemplate[] = [
   {
@@ -34,6 +48,7 @@ export const mealPlanTemplates: MealPlanTemplate[] = [
       carbs: 40,
       fats: 30,
     },
+    macrosGrams: calculateMacrosGrams(1600, 30, 40, 30),
     meals: {
       breakfast: [
         'Greek yogurt with berries and almonds',
@@ -76,6 +91,7 @@ export const mealPlanTemplates: MealPlanTemplate[] = [
       carbs: 45,
       fats: 20,
     },
+    macrosGrams: calculateMacrosGrams(2800, 35, 45, 20),
     meals: {
       breakfast: [
         'Egg white omelet with turkey and cheese',
@@ -118,6 +134,7 @@ export const mealPlanTemplates: MealPlanTemplate[] = [
       carbs: 50,
       fats: 25,
     },
+    macrosGrams: calculateMacrosGrams(2000, 25, 50, 25),
     meals: {
       breakfast: [
         'Tofu scramble with vegetables',
@@ -160,6 +177,7 @@ export const mealPlanTemplates: MealPlanTemplate[] = [
       carbs: 5,
       fats: 70,
     },
+    macrosGrams: calculateMacrosGrams(1800, 25, 5, 70),
     meals: {
       breakfast: [
         'Bacon and eggs with avocado',
@@ -202,6 +220,7 @@ export const mealPlanTemplates: MealPlanTemplate[] = [
       carbs: 45,
       fats: 30,
     },
+    macrosGrams: calculateMacrosGrams(2200, 25, 45, 30),
     meals: {
       breakfast: [
         'Whole grain toast with eggs and avocado',
@@ -244,6 +263,7 @@ export const mealPlanTemplates: MealPlanTemplate[] = [
       carbs: 50,
       fats: 20,
     },
+    macrosGrams: calculateMacrosGrams(3200, 30, 50, 20),
     meals: {
       breakfast: [
         'Large omelet with whole grain toast and fruit',
@@ -286,6 +306,7 @@ export const mealPlanTemplates: MealPlanTemplate[] = [
       carbs: 35,
       fats: 35,
     },
+    macrosGrams: calculateMacrosGrams(1800, 30, 35, 35),
     meals: {
       breakfast: [
         'Skip (fasting period)',
@@ -328,6 +349,7 @@ export const mealPlanTemplates: MealPlanTemplate[] = [
       carbs: 45,
       fats: 30,
     },
+    macrosGrams: calculateMacrosGrams(1900, 25, 45, 30),
     meals: {
       breakfast: [
         'Kefir smoothie with berries and chia seeds',

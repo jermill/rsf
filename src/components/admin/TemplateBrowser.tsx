@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { mealPlanTemplates, MealPlanTemplate, getAllCategories } from '../../data/mealPlanTemplates';
-import { X, Search, Calendar, TrendingDown, TrendingUp, Heart, Leaf, Flame } from 'lucide-react';
+import NutritionDashboard from './NutritionDashboard';
+import { X, Search, Calendar, TrendingDown, TrendingUp, Heart, Leaf, Flame, Info } from 'lucide-react';
 
 interface TemplateBrowserProps {
   onClose: () => void;
@@ -11,6 +12,7 @@ const TemplateBrowser: React.FC<TemplateBrowserProps> = ({ onClose, onSelect }) 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedTemplate, setSelectedTemplate] = useState<MealPlanTemplate | null>(null);
+  const [showNutritionDetails, setShowNutritionDetails] = useState(false);
 
   const categories = ['all', ...getAllCategories()];
 
@@ -178,11 +180,63 @@ const TemplateBrowser: React.FC<TemplateBrowserProps> = ({ onClose, onSelect }) 
                       </span>
                     )}
                   </div>
+
+                  {/* View Nutrition Button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedTemplate(template);
+                      setShowNutritionDetails(true);
+                    }}
+                    className="mt-4 w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-dark border border-primary/30 text-primary text-sm font-semibold hover:bg-primary/10 transition"
+                  >
+                    <Info className="w-4 h-4" />
+                    View Nutrition
+                  </button>
                 </div>
               ))}
             </div>
           )}
         </div>
+
+        {/* Nutrition Details Modal */}
+        {showNutritionDetails && selectedTemplate && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+            <div className="bg-dark rounded-2xl shadow-2xl border border-primary/30 w-full max-w-4xl max-h-[80vh] overflow-y-auto p-6">
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                  <h3 className="text-2xl font-bold text-primary mb-2">{selectedTemplate.icon} {selectedTemplate.name}</h3>
+                  <p className="text-sm text-light/60">{selectedTemplate.description}</p>
+                </div>
+                <button
+                  onClick={() => setShowNutritionDetails(false)}
+                  className="p-2 rounded-lg hover:bg-primary/10 transition text-light/70 hover:text-light"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <NutritionDashboard
+                nutrition={{
+                  calories: selectedTemplate.caloriesPerDay,
+                  protein: selectedTemplate.macrosGrams.protein,
+                  carbs: selectedTemplate.macrosGrams.carbs,
+                  fats: selectedTemplate.macrosGrams.fats,
+                }}
+                showTargets={false}
+                compact={false}
+              />
+
+              <button
+                onClick={() => setShowNutritionDetails(false)}
+                className="mt-6 w-full px-6 py-3 rounded-lg bg-primary text-dark font-semibold hover:bg-primary/90 transition"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+
 
         {/* Footer */}
         <div className="p-6 border-t border-primary/20 flex items-center justify-between bg-dark/50">
