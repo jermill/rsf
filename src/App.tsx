@@ -64,6 +64,7 @@ function App() {
       {/* Protected Admin Section - with sidebar */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route element={<AdminRoute allowedRoles={['superadmin', 'admin']} />}>
+          <Route index element={<AdminDashboardPage />} />
           <Route path="dashboard" element={<AdminDashboardPage />} />
           <Route path="clients" element={<AdminClientsPage />} />
           <Route path="sessions" element={<AdminSessionsPage />} />

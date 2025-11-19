@@ -11,7 +11,9 @@ import {
   Calendar,
   FileText,
   Palette,
-  Image
+  Image,
+  UserCog,
+  CalendarCheck
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
@@ -70,6 +72,36 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
         >
           <LayoutDashboard className="w-5 h-5 mr-3" />
           Dashboard
+        </NavLink>
+
+        <NavLink
+          to="/admin/clients"
+          onClick={onClose}
+          className={({ isActive }) =>
+            `flex items-center px-4 py-2 rounded-lg transition-colors ${
+              isActive
+                ? 'bg-primary text-dark'
+                : 'text-light/70 hover:bg-primary/10 hover:text-light'
+            }`
+          }
+        >
+          <UserCog className="w-5 h-5 mr-3" />
+          Clients
+        </NavLink>
+
+        <NavLink
+          to="/admin/sessions"
+          onClick={onClose}
+          className={({ isActive }) =>
+            `flex items-center px-4 py-2 rounded-lg transition-colors ${
+              isActive
+                ? 'bg-primary text-dark'
+                : 'text-light/70 hover:bg-primary/10 hover:text-light'
+            }`
+          }
+        >
+          <CalendarCheck className="w-5 h-5 mr-3" />
+          Sessions
         </NavLink>
 
         <NavLink
