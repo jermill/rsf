@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import TemplateSelector from './TemplateSelector';
+import MealImageUpload from './MealImageUpload';
 import { MealPlanTemplate } from '../../data/mealPlanTemplates';
+import { Image as ImageIcon } from 'lucide-react';
 
 interface Client {
   id: string;
@@ -46,11 +48,12 @@ const MealPlanBuilder: React.FC<MealPlanBuilderProps> = ({ client, template, onC
   const [planName, setPlanName] = useState('');
   const [description, setDescription] = useState('');
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | undefined>(undefined);
+  const [expandedMealImages, setExpandedMealImages] = useState<{ [key: string]: boolean }>({});
   // TODO: Replace with real goals and dietary prefs from user profile or props
   const [selectedGoals] = useState<string[]>(['Weight Loss', 'Muscle Gain']);
   const [selectedDietaryPrefs] = useState<string[]>(['No Restrictions', 'Vegetarian']);
   const [days, setDays] = useState([
-    { dayNumber: 1, meals: [{ mealType: 'breakfast', foods: [''] }] },
+    { dayNumber: 1, meals: [{ mealType: 'breakfast', foods: [''], images: [] }] },
   ]);
 
   // Populate form with template data if provided
@@ -64,15 +67,35 @@ const MealPlanBuilder: React.FC<MealPlanBuilderProps> = ({ client, template, onC
       const templateDays = Array.from({ length: Math.min(template.duration, 7) }, (_, i) => ({
         dayNumber: i + 1,
         meals: [
-          { mealType: 'breakfast', foods: template.meals.breakfast },
-          { mealType: 'lunch', foods: template.meals.lunch },
-          { mealType: 'dinner', foods: template.meals.dinner },
-          { mealType: 'snack', foods: template.meals.snacks },
+          { mealType: 'breakfast', foods: template.meals.breakfast, images: [] },
+          { mealType: 'lunch', foods: template.meals.lunch, images: [] },
+          { mealType: 'dinner', foods: template.meals.dinner, images: [] },
+          { mealType: 'snack', foods: template.meals.snacks, images: [] },
         ],
       }));
       setDays(templateDays);
     }
   }, [template]);
+
+  // Handle image upload for a meal
+  const handleMealImageUpload = (dayIdx: number, mealIdx: number, imageUrl: string) => {
+    const newDays = [...days];
+    const meal = newDays[dayIdx].meals[mealIdx] as any;
+    if (!meal.images) {
+      meal.images = [];
+    }
+    meal.images.push(imageUrl);
+    setDays(newDays);
+  };
+
+  // Toggle image upload section
+  const toggleMealImages = (dayIdx: number, mealIdx: number) => {
+    const key = `${dayIdx}-${mealIdx}`;
+    setExpandedMealImages((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
 
   // Handle template selection
   const handleTemplateSelect = (templateId: string) => {
@@ -88,14 +111,14 @@ const MealPlanBuilder: React.FC<MealPlanBuilderProps> = ({ client, template, onC
   const addDay = () => {
     setDays([
       ...days,
-      { dayNumber: days.length + 1, meals: [{ mealType: 'breakfast', foods: [''] }] },
+      { dayNumber: days.length + 1, meals: [{ mealType: 'breakfast', foods: [''], images: [] }] },
     ]);
   };
 
   // Add Meal to a Day
   const addMeal = (dayIdx: number) => {
     const newDays = [...days];
-    newDays[dayIdx].meals.push({ mealType: '', foods: [''] });
+    newDays[dayIdx].meals.push({ mealType: '', foods: [''], images: [] });
     setDays(newDays);
   };
 
@@ -216,6 +239,34 @@ const MealPlanBuilder: React.FC<MealPlanBuilderProps> = ({ client, template, onC
                           <span className="font-bold text-lg leading-none">+</span> <span>Add Food</span>
                         </button>
                       </div>
+                      
+                      {/* Add Photos Button */}
+                      <button
+                        type="button"
+                        onClick={() => toggleMealImages(dayIdx, mealIdx)}
+                        className="mt-3 flex items-center gap-2 text-xs px-3 py-2 rounded-lg border border-primary/30 text-primary hover:bg-primary/10 transition"
+                      >
+                        <ImageIcon className="w-4 h-4" />
+                        {expandedMealImages[`${dayIdx}-${mealIdx}`] ? 'Hide Photos' : 'Add Photos'}
+                        {meal.images && meal.images.length > 0 && (
+                          <span className="ml-1 px-2 py-0.5 rounded-full bg-primary/20 text-xs">
+                            {meal.images.length}
+                          </span>
+                        )}
+                      </button>
+
+                      {/* Image Upload Section */}
+                      {expandedMealImages[`${dayIdx}-${mealIdx}`] && (
+                        <div className="mt-3 pt-3 border-t border-primary/10">
+                          <MealImageUpload
+                            mealPlanId={`temp-${client.id}`}
+                            mealType={meal.mealType as any}
+                            onImageUploaded={(url) => handleMealImageUpload(dayIdx, mealIdx, url)}
+                            existingImages={meal.images || []}
+                            maxImages={3}
+                          />
+                        </div>
+                      )}
                     </div>
                   ))}
                   <button type="button" onClick={() => addMeal(dayIdx)} className="text-xs px-3 py-1 rounded bg-primary/10 text-primary hover:bg-primary/20 mt-2 w-max flex items-center gap-1">
